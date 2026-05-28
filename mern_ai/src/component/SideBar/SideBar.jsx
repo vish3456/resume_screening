@@ -16,7 +16,7 @@ const SideBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { setLogin, setUserInfo, userInfo } = useContext(AuthContext);
+    const { isLogin, setLogin, setUserInfo, userInfo } = useContext(AuthContext);
 
     const handleLogout = () => {
         localStorage.removeItem('isLogin');

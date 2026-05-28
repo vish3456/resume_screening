@@ -97,7 +97,7 @@ const Dashboard = () => {
 
             {error && (
                 <div className={styles.errorBanner}>
-                    <span>⚠</span>
+                    <span>!</span>
                     <span>{error}</span>
                 </div>
             )}
