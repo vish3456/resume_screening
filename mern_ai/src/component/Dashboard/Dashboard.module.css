@@ -70,6 +70,9 @@
 }
 
 .analyzeAIBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 18px;
     cursor: pointer;
     padding: 20px 40px;
@@ -102,9 +105,9 @@ input {
 }
 
 .AnalyzeBtn {
+    border: 3px solid black;
     width: 150px;
     height: 150px;
-    border: 3px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,6 +116,33 @@ input {
     font-size: 22px;
     color: white;
     cursor: pointer;
+}
+
+.AnalyzeBtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.errorText {
+    color: #b42318;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.resultScore {
+    font-size: 44px !important;
+    font-weight: 800 !important;
+    margin-top: 18px;
+}
+
+.resultName {
+    font-weight: 700;
+    text-align: center;
+}
+
+.resultFeedback {
+    line-height: 1.5;
+    text-align: center;
 }
 .DashboardRight {
     width: 25%;

@@ -13,43 +13,98 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const [resumeFile, setResumeFile] = useState(null);
     const [jobDesc, setJobDesc] = useState("");
+    const [error, setError] = useState("");
 
     const [result, setResult] = useState(null);
 
     const { userInfo } = useContext(AuthContext);
 
     const handleOnChangeFile = (e) => {
-        setResumeFile(e.target.files[0]);
-        setUploadFileText(e.target.files[0].name)
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setResumeFile(file);
+        setUploadFileText(file.name);
+        setError("");
     }
 
     const handleUpload = async () => {
-                            {/* Please watch the video for ful source code */}
+        if (loading) return;
 
+        if (!userInfo?.id) {
+            setError("Please login before analyzing a resume.");
+            return;
+        }
 
+        if (!resumeFile) {
+            setError("Please upload a PDF resume.");
+            return;
+        }
 
+        if (!jobDesc.trim()) {
+            setError("Please paste a job description.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("resume", resumeFile);
+        formData.append("job_desc", jobDesc);
+        formData.append("user", userInfo.id);
+
+        try {
+            setLoading(true);
+            setError("");
+            setResult(null);
+
+            const response = await axios.post("/api/resume/addResume", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            setResult(response.data.data);
+        } catch (err) {
+            console.error("Failed to analyze resume:", err);
+            setError(err.response?.data?.message || err.response?.data?.error || "Unable to analyze this resume right now.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <div className={styles.Dashboard}>
             <div className={styles.DashboardLeft}>
                 <div className={styles.DashboardHeader}>
-                                        {/* Please watch the video for ful source code */}
+                    <div className={styles.DashboardHeaderTitle}>AI Resume Analyzer</div>
+                    <div className={styles.DashboardHeaderLargeTitle}>Match resumes to any job description.</div>
 
                 </div>
 
                 <div className={styles.alertInfo}>
-                                        {/* Please watch the video for ful source code */}
+                    Upload a PDF resume, paste the job description, and get a match score with feedback.
+                    {error && <div className={styles.errorText}>{error}</div>}
 
                 </div>
 
                 <div className={styles.DashboardUploadResume}>
-                    {/* Please watch the video for ful source code */}
+                    <div className={styles.DashboardResumeBlock}>
+                        <div className={styles.DashboardInputField}>
+                            <CreditScoreIcon sx={{ fontSize: 32, marginRight: 2 }} />
+                            <span>{uploadFiletext}</span>
+                        </div>
+                    </div>
+
+                    <label className={styles.analyzeAIBtn} htmlFor="resume-upload">
+                        Choose PDF
+                    </label>
+                    <input id="resume-upload" type="file" accept="application/pdf" onChange={handleOnChangeFile} />
                 </div>
 
                 <div className={styles.jobDesc}>
                     <textarea value={jobDesc} onChange={(e) => { setJobDesc(e.target.value) }} className={styles.textArea} placeholder='Paste Your Job Description' rows={10} cols={50} />
-                    <div className={styles.AnalyzeBtn} onClick={handleUpload} >Analyze</div>
+                    <button className={styles.AnalyzeBtn} onClick={handleUpload} disabled={loading}>
+                        {loading ? "Analyzing..." : "Analyze"}
+                    </button>
                 </div>
             </div>
 
@@ -67,7 +122,9 @@ const Dashboard = () => {
                     result && <div className={styles.DashboardRightTopCard}>
                         <div>Result</div>
 
-                    {/* Please watch the video for ful source code */}
+                        <div className={styles.resultScore}>{result.score}%</div>
+                        <p className={styles.resultName}>{result.resume_name}</p>
+                        <p className={styles.resultFeedback}>{result.feedback}</p>
                         
                     </div>
                 }

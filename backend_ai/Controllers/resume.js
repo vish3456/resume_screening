@@ -10,11 +10,26 @@ const cohere = new CohereClient({
 });
 
 exports.addResume = async (req, res) => {
+    let pdfPath;
+
     try {
         const { job_desc, user } = req.body;
-        console.log(req.file)
-        const pdfBuffer = req.file.buffer || null;
-        {/* Please watch the video for ful source code */ }
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'Resume PDF is required' });
+        }
+
+        if (!job_desc || !user) {
+            return res.status(400).json({ error: 'Job description and user are required' });
+        }
+
+        if (!process.env.COHERE_API_KEY) {
+            return res.status(500).json({ error: 'COHERE_API_KEY is not configured' });
+        }
+
+        pdfPath = req.file.path;
+        const pdfBuffer = fs.readFileSync(pdfPath);
+        const pdfData = await pdfParse(pdfBuffer);
 
         const prompt = `
             You are a resume screening assistant.
@@ -41,16 +56,30 @@ exports.addResume = async (req, res) => {
 
         let result = response.text;
 
-        {/* Please watch the video for ful source code */ }
+        const scoreMatch = result.match(/Score:\s*(\d{1,3})/i) || result.match(/\b(\d{1,3})\s*%?/);
+        const score = scoreMatch ? Math.min(Number(scoreMatch[1]), 100) : 0;
+        const reasonMatch = result.match(/Reason:\s*([\s\S]*)/i);
+        const feedback = reasonMatch ? reasonMatch[1].trim() : result.trim();
 
-        await newResume.save();
+        const newResume = await Resume.create({
+            userId: user,
+            resume_name: req.file.originalname,
+            job_desc,
+            score: String(score),
+            feedback,
+        });
 
-        fs.unlinkSync(pdfPath); // remove temp file
+        if (pdfPath && fs.existsSync(pdfPath)) {
+            fs.unlinkSync(pdfPath);
+        }
 
         res.status(200).json({ message: "Your analysis are ready", data: newResume });
 
     } catch (err) {
         console.log(err);
+        if (pdfPath && fs.existsSync(pdfPath)) {
+            fs.unlinkSync(pdfPath);
+        }
         res.status(500).json({ error: 'Server error', message: err.message });
     }
 }
