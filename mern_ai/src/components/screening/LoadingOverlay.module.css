@@ -1,0 +1,81 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fca326;
+  border-right-color: #f94a6b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 28px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusText {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  animation: textPulse 2.5s ease-in-out infinite;
+  text-align: center;
+  padding: 0 20px;
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.dots {
+  color: #fca326;
+  font-size: 14px;
+  margin-top: 12px;
+  letter-spacing: 4px;
+  animation: dotBlink 1.4s infinite steps(3);
+}
+
+@keyframes dotBlink {
+  0% {
+    content: ".";
+    opacity: 0.3;
+  }
+  33% {
+    opacity: 0.6;
+  }
+  66% {
+    opacity: 1;
+  }
+}
+

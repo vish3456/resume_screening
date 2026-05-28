@@ -1,0 +1,196 @@
+.historyPage {
+  flex: 0.8;
+  height: 100vh;
+  overflow: auto;
+  padding: 50px;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 28px;
+}
+
+.tableCard {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: fadeSlideUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: rgb(14, 14, 97);
+  color: white;
+}
+
+.table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.jdPreview {
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topScore {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.scoreGreen {
+  color: #22c55e;
+}
+
+.scoreAmber {
+  color: #f59e0b;
+}
+
+.scoreRed {
+  color: #ef4444;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 2px solid rgb(14, 14, 97);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  color: rgb(14, 14, 97);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.actionBtn:hover {
+  background: rgb(14, 14, 97);
+  color: white;
+}
+
+.actionBtnPrimary {
+  background: linear-gradient(90deg, #fca326, #f94a6b);
+  color: white;
+  border-color: transparent;
+}
+
+.actionBtnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(252, 163, 38, 0.3);
+  background: linear-gradient(90deg, #fca326, #f94a6b);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  text-align: center;
+  animation: fadeSlideUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.emptyIcon {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.emptyLink {
+  color: rgb(14, 14, 97);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.emptyLink:hover {
+  color: #fca326;
+}
+
+.skeletonBlock {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media screen and (max-width: 780px) {
+  .historyPage {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 26px;
+  }
+
+  .tableCard {
+    overflow-x: auto;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .jdPreview {
+    max-width: 150px;
+  }
+}
+

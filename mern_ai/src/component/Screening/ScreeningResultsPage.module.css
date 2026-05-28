@@ -1,0 +1,104 @@
+.resultsPage {
+  flex: 0.8;
+  height: 100vh;
+  overflow: auto;
+  padding: 50px;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumbLink {
+  color: rgb(14, 14, 97);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #fca326;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid rgb(14, 14, 97);
+  border-radius: 20px;
+  background: white;
+  color: rgb(14, 14, 97);
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.backBtn:hover {
+  background: rgb(14, 14, 97);
+  color: white;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.pageMeta {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+.errorAlert {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 14px 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media screen and (max-width: 780px) {
+  .resultsPage {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 22px;
+  }
+
+  .resultsGrid,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

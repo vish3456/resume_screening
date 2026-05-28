@@ -1,0 +1,237 @@
+.screeningPage {
+  flex: 0.8;
+  height: 100vh;
+  overflow: auto;
+  padding: 50px;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  color: #64748b;
+  margin-bottom: 32px;
+}
+
+.inputGrid {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.inputCard {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  padding: 28px;
+  box-sizing: border-box;
+  animation: cardSlideUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.inputCard:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardTitleIcon {
+  color: rgb(14, 14, 97);
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgb(14, 14, 97);
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: white;
+  color: rgb(14, 14, 97);
+  border: none;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.tabActive {
+  background: rgb(14, 14, 97);
+  color: white;
+}
+
+.jdTextarea {
+  width: 100%;
+  outline: none;
+  border: 2px solid rgb(14, 14, 97);
+  border-radius: 20px;
+  padding: 14px 20px;
+  box-sizing: border-box;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  transition: border-color 0.2s ease;
+  min-height: 180px;
+}
+
+.jdTextarea:focus {
+  border-color: #fca326;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.submitBtnWrapper {
+  margin-bottom: 40px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 18px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #fca326, #f94a6b);
+  border: 3px solid black;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(252, 163, 38, 0.4);
+}
+
+.submitBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.resultsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.resultsTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.resultsMeta {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.newScreeningBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: rgb(14, 14, 97);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.newScreeningBtn:hover {
+  background: #0b0b5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(11, 11, 90, 0.3);
+}
+
+.errorAlert {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 14px 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: cardSlideUp 0.3s ease forwards;
+}
+
+@media screen and (max-width: 780px) {
+  .screeningPage {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 26px;
+  }
+
+  .inputGrid {
+    flex-direction: column;
+  }
+
+  .resultsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .submitBtn {
+    font-size: 17px;
+    padding: 15px 30px;
+  }
+}
+
