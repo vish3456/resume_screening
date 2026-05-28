@@ -1,4 +1,4 @@
-const { Resume } = require('../Models/index');
+const { Resume, User } = require('../Models/index');
 const multer = require("multer");
 const pdfParse = require("pdf-parse");
 const path = require("path");
@@ -57,7 +57,21 @@ exports.addResume = async (req, res) => {
 
 exports.getAllResumesForUser = async (req, res) => {
     try {
-        {/* Please watch the video for ful source code */ }
+        const { user } = req.params;
+
+        if (!user) {
+            return res.status(400).json({ error: 'User id is required' });
+        }
+
+        const resumes = await Resume.findAll({
+            where: { userId: user },
+            order: [['createdAt', 'DESC']],
+        });
+
+        return res.status(200).json({
+            message: 'Resume history fetched successfully',
+            data: resumes,
+        });
 
     } catch (err) {
         console.error(err);
@@ -67,7 +81,15 @@ exports.getAllResumesForUser = async (req, res) => {
 
 exports.getResumeForAdmin = async (req, res) => {
     try {
-        {/* Please watch the video for ful source code */ }
+        const resumes = await Resume.findAll({
+            include: [{ model: User }],
+            order: [['createdAt', 'DESC']],
+        });
+
+        return res.status(200).json({
+            message: 'All resume history fetched successfully',
+            data: resumes,
+        });
 
     } catch (err) {
         console.error(err);

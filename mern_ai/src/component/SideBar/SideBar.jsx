@@ -16,10 +16,14 @@ const SideBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { isLogin, setLogin, userInfo, setUserInfo } = useContext(AuthContext);
+    const { setLogin, setUserInfo } = useContext(AuthContext);
 
     const handleLogout = () => {
-        {/* Please watch the video for ful source code */ }
+        localStorage.removeItem('isLogin');
+        localStorage.removeItem('userInfo');
+        setLogin(false);
+        setUserInfo(null);
+        navigate('/');
 
     }
     return (
