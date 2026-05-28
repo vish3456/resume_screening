@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const path = require('path');
 
@@ -23,13 +23,17 @@ app.use('/api/user', UserRoutes);
 app.use('/api/resume', ResumeRoutes);
 app.use('/api/screening', ScreeningRoutes);
 
-// // Serve static files from the build folder
-// app.use(express.static(path.join(__dirname, "build")));
+const frontendBuildPath = path.join(__dirname, '..', 'mern_ai', 'dist');
+const fallbackBuildPath = path.join(__dirname, 'build');
+const staticBuildPath = require('fs').existsSync(frontendBuildPath)
+    ? frontendBuildPath
+    : fallbackBuildPath;
 
-// // Catch-all route: send index.html for React Router
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
+app.use(express.static(staticBuildPath));
+
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(staticBuildPath, 'index.html'));
+});
 
 app.listen(PORT, () => {
     console.log("backend is running on port", PORT);
