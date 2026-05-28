@@ -25,6 +25,8 @@ async function extractText(filePath) {
     } else if (ext === '.docx' || ext === '.doc') {
         const result = await mammoth.extractRawText({ path: filePath });
         return result.value;
+    } else if (ext === '.txt') {
+        return fs.readFileSync(filePath, 'utf-8');
     } else {
         throw new Error(`Unsupported file type: ${ext}`);
     }

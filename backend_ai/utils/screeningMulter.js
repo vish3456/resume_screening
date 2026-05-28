@@ -22,9 +22,10 @@ const allowedMimeTypes = [
     'application/pdf',
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
 ];
 
-const allowedExtensions = ['.pdf', '.doc', '.docx'];
+const allowedExtensions = ['.pdf', '.doc', '.docx', '.txt'];
 
 const fileFilter = (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();

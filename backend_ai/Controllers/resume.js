@@ -45,8 +45,8 @@ exports.addResume = async (req, res) => {
             Score: XX
             Reason: ...
 
-            `
-            ;
+            `;
+
         const response = await cohere.chat({
             model: "command-r7b-12-2024",
             message: prompt,
@@ -111,8 +111,11 @@ exports.getAllResumesForUser = async (req, res) => {
 exports.getResumeForAdmin = async (req, res) => {
     try {
         const resumes = await Resume.findAll({
-            include: [{ model: User }],
             order: [['createdAt', 'DESC']],
+            include: [{
+                model: User,
+                attributes: ['id', 'name', 'email', 'photoUrl'],
+            }],
         });
 
         return res.status(200).json({

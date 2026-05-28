@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import styles from './Login.module.css';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import GoogleIcon from '@mui/icons-material/Google';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import { auth, provider } from '../../utils/firebase';
 import { signInWithPopup } from 'firebase/auth';
@@ -46,19 +46,43 @@ const Login = () => {
             setLoading(false);
         }
     }
+
     return (
-        <div className={styles.Login}>
+        <div className={styles.loginPage}>
+            {/* Animated background mesh */}
+            <div className={styles.bgMesh}>
+                <div className={styles.meshOrb1} />
+                <div className={styles.meshOrb2} />
+                <div className={styles.meshOrb3} />
+            </div>
+
             <div className={styles.loginCard}>
-                <div className={styles.loginCardTitle}>
-                    <h1>Login </h1>
-                    <VpnKeyIcon />
+                <div className={styles.cardGlow} />
+                
+                <div className={styles.logoBlock}>
+                    <div className={styles.logoIcon}>
+                        <ArticleIcon sx={{ fontSize: 32 }} />
+                    </div>
+                    <h1 className={styles.logoTitle}>ResumeAI</h1>
+                    <p className={styles.logoSubtitle}>AI-powered resume screening platform</p>
+                </div>
+
+                <div className={styles.divider}>
+                    <span>Sign in to continue</span>
                 </div>
 
                 <button className={styles.googleBtn} onClick={handleLogin} disabled={loading}>
-                    <GoogleIcon sx={{ fontSize: 20, color: "red" }} />
-                    {loading ? 'Signing in...' : 'Sign in with Google'}
+                    {loading ? (
+                        <span className={styles.spinner} />
+                    ) : (
+                        <GoogleIcon sx={{ fontSize: 20 }} />
+                    )}
+                    <span>{loading ? 'Signing in...' : 'Continue with Google'}</span>
                 </button>
 
+                <p className={styles.terms}>
+                    By signing in, you agree to our terms of service
+                </p>
             </div>
         </div>
     )

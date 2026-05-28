@@ -16,7 +16,7 @@ const SideBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { setLogin, setUserInfo } = useContext(AuthContext);
+    const { setLogin, setUserInfo, userInfo } = useContext(AuthContext);
 
     const handleLogout = () => {
         localStorage.removeItem('isLogin');
@@ -24,40 +24,98 @@ const SideBar = () => {
         setLogin(false);
         setUserInfo(null);
         navigate('/');
-
     }
+
+    const navItems = [
+        { path: '/dashboard', icon: <DashboardIcon sx={{ fontSize: 20 }} />, label: 'Dashboard' },
+        { path: '/screen', icon: <FindInPageIcon sx={{ fontSize: 20 }} />, label: 'Screener', exact: true },
+        { path: '/screen/history', icon: <WorkHistoryIcon sx={{ fontSize: 20 }} />, label: 'Screening History', matchPaths: ['/screen/history', '/screen/results'] },
+        { path: '/history', icon: <ManageSearchIcon sx={{ fontSize: 20 }} />, label: 'History' },
+        { path: '/admin', icon: <AdminPanelSettingsIcon sx={{ fontSize: 20 }} />, label: 'Admin' },
+    ];
+
+    const isActive = (item) => {
+        if (item.matchPaths) {
+            return item.matchPaths.some(p => location.pathname.startsWith(p));
+        }
+        if (item.exact) {
+            return location.pathname === item.path;
+        }
+        return location.pathname === item.path;
+    };
+
+    if (location.pathname === '/' || !isLogin) {
+        return null;
+    }
+
     return (
-        <div className={styles.sideBar}>
-            <div className={styles.sideBarIcon}>
-                <ArticleIcon sx={{ fontSize: 54, marginBottom: 2 }} />
-                <div className={styles.sideBarTopContent}>Resume Screening</div>
-            </div>
-
-            <div className={styles.sideBarOptionsBlock}>
-
-                {/* Please watch the video for ful source code */}
-
-
-                <Link to={'/screen'} className={[styles.sideBarOption, location.pathname === '/screen' ? styles.selectedOption : null].join(' ')}>
-                    <FindInPageIcon sx={{ fontSize: 22 }} />
-                    <div>Resume Screener</div>
-                </Link>
-                <Link to={'/screen/history'} className={[styles.sideBarOption, location.pathname.startsWith('/screen/history') || location.pathname.startsWith('/screen/results') ? styles.selectedOption : null].join(' ')}>
-                    <WorkHistoryIcon sx={{ fontSize: 22 }} />
-                    <div>Screening History</div>
-                </Link>
-                <Link to={'/history'} className={[styles.sideBarOption, location.pathname === '/history' ? styles.selectedOption : null].join(' ')}>
-                    <ManageSearchIcon sx={{ fontSize: 22 }} />
-                    <div>History</div>
+        <nav className={styles.sidebar}>
+            <div className={styles.sidebarInner}>
+                {/* Logo */}
+                <Link to="/dashboard" className={styles.logo}>
+                    <div className={styles.logoIcon}>
+                        <ArticleIcon sx={{ fontSize: 28 }} />
+                    </div>
+                    <span className={styles.logoText}>ResumeAI</span>
                 </Link>
 
-                <div onClick={handleLogout} className={styles.sideBarOption}>
-                    <LogoutIcon sx={{ fontSize: 22 }} />
-                    <div>LogOut</div>
+                {/* Navigation Links */}
+                <div className={styles.navSection}>
+                    <div className={styles.navLabel}>Menu</div>
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className={`${styles.navItem} ${isActive(item) ? styles.navItemActive : ''}`}
+                        >
+                            <span className={styles.navIcon}>{item.icon}</span>
+                            <span className={styles.navText}>{item.label}</span>
+                            {isActive(item) && <span className={styles.activeIndicator} />}
+                        </Link>
+                    ))}
                 </div>
 
+                {/* User & Logout */}
+                <div className={styles.sidebarFooter}>
+                    {userInfo && (
+                        <div className={styles.userInfo}>
+                            <img
+                                className={styles.userAvatar}
+                                src={userInfo.photoUrl}
+                                alt={userInfo.name}
+                                referrerPolicy="no-referrer"
+                            />
+                            <div className={styles.userMeta}>
+                                <div className={styles.userName}>{userInfo.name}</div>
+                                <div className={styles.userRole}>{userInfo.role || 'User'}</div>
+                            </div>
+                        </div>
+                    )}
+                    <button onClick={handleLogout} className={styles.logoutBtn}>
+                        <LogoutIcon sx={{ fontSize: 18 }} />
+                        <span>Log out</span>
+                    </button>
+                </div>
             </div>
-        </div>
+
+            {/* Mobile Bottom Nav */}
+            <div className={styles.mobileNav}>
+                {navItems.slice(0, 4).map((item) => (
+                    <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`${styles.mobileNavItem} ${isActive(item) ? styles.mobileNavItemActive : ''}`}
+                    >
+                        {item.icon}
+                        <span className={styles.mobileNavLabel}>{item.label}</span>
+                    </Link>
+                ))}
+                <button onClick={handleLogout} className={styles.mobileNavItem}>
+                    <LogoutIcon sx={{ fontSize: 20 }} />
+                    <span className={styles.mobileNavLabel}>Logout</span>
+                </button>
+            </div>
+        </nav>
     )
 }
 

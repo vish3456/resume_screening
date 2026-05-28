@@ -1,123 +1,119 @@
+/* === Dropzone Wrapper === */
 .dropzoneWrapper {
   width: 100%;
 }
 
+/* === Dropzone === */
 .dropzone {
-  border: 2px dashed #ccc;
-  border-radius: 16px;
-  padding: 30px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  border: 2px dashed var(--border-light);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #fafbfc;
+  transition: all var(--transition-normal);
+  text-align: center;
+  min-height: 160px;
 }
 
 .dropzone:hover {
-  border-color: rgb(14, 14, 97);
-  background-color: #f0f2ff;
+  border-color: var(--accent-primary);
+  background: rgba(77, 162, 255, 0.04);
 }
 
 .dropzoneActive {
-  border-color: #fca326;
-  background-color: #fff8ee;
-  transform: scale(1.01);
+  border-color: var(--accent-primary);
+  background: rgba(77, 162, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(77, 162, 255, 0.1);
 }
 
 .dropzoneIcon {
-  color: rgb(14, 14, 97);
-  margin-bottom: 8px;
+  color: var(--accent-primary) !important;
+  margin-bottom: 12px;
+  opacity: 0.7;
 }
 
 .dropzoneLabel {
-  font-size: 17px;
-  font-weight: 600;
-  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .dropzoneSublabel {
-  font-size: 13px;
-  color: #888;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
+/* === File List === */
 .fileList {
-  margin-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  margin-top: 14px;
 }
 
 .fileItem {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 10px 14px;
-  animation: fileSlideIn 0.3s ease forwards;
-  opacity: 0;
-}
-
-@keyframes fileSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  padding: 8px 12px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  animation: fadeInUp 0.3s ease both;
 }
 
 .fileBadge {
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  background: rgba(77, 162, 255, 0.1);
+  color: var(--accent-primary);
+  border-radius: 4px;
+  font-size: 0.65rem;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: rgb(14, 14, 97);
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
   flex-shrink: 0;
 }
 
 .fileName {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
   flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .fileSize {
-  font-size: 12px;
-  color: #999;
+  font-size: 0.75rem;
+  color: var(--text-muted);
   flex-shrink: 0;
 }
 
 .fileRemove {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: #fee2e2;
-  color: #ef4444;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .fileRemove:hover {
-  background: #ef4444;
-  color: white;
-  transform: scale(1.1);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
 }
-

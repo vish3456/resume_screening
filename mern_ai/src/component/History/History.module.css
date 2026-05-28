@@ -1,42 +1,157 @@
-.History {
-    flex: 0.8;
-    height: 100vh;
-    overflow: auto;
-    padding: 50px;
-    background-color: whitesmoke;
-    box-sizing: border-box;
+/* === Page === */
+.page {
+  flex: 1;
+  min-height: 100vh;
+  padding: 40px 48px;
+  overflow-y: auto;
+  background: var(--bg-base);
+  box-sizing: border-box;
 }
 
-.HistoryCardBlock {
-    width: 100%;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr 1fr 1fr ;
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
-.HistoryCard {
-    width: 100%;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    padding: 20px;
-    box-sizing: border-box;
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.5s ease 0.1s both;
 }
 
-.cardPercentage {
-    font-size: 34px;
-    text-align: center;
+/* === Grid === */
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-.HistoryMessage {
-    grid-column: 1 / -1;
-    color: #4b5563;
-    font-size: 18px;
-    margin: 0;
+/* === Card === */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeInUp 0.5s ease both;
+  transition: all var(--transition-normal);
 }
 
-@media screen and (max-width:780px) {
-    .HistoryCardBlock {
-        
-        grid-template-columns: 1fr ;
-    }
+.card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.cardScore {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.cardFeedback {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardDate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* === Skeleton === */
+.skeletonCard {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* === Empty State === */
+.emptyState {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  text-align: center;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.emptyTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.emptyLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  background: var(--accent-gradient);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-normal);
+}
+
+.emptyLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(77, 162, 255, 0.25);
+}
+
+/* === Responsive === */
+@media screen and (max-width: 768px) {
+  .page {
+    padding: 24px 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }

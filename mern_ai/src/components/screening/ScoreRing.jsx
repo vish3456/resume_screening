@@ -20,7 +20,7 @@ const ScoreRing = ({ score, size = 80 }) => {
           textSize: "28px",
           textColor: color,
           pathColor: color,
-          trailColor: "#e5e7eb",
+          trailColor: "rgba(255,255,255,0.08)",
           pathTransitionDuration: 1.2,
         })}
       />
