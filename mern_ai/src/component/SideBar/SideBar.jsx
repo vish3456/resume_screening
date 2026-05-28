@@ -103,7 +103,7 @@ const SideBar = () => {
 
             {/* Mobile Bottom Nav */}
             <div className={styles.mobileNav}>
-                {navItems.slice(0, 4).map((item) => (
+                {navItems.map((item) => (
                     <Link
                         key={item.path}
                         to={item.path}
