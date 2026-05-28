@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Login.module.css';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -11,21 +11,39 @@ import axios from '../../utils/axios';
 
 const Login = () => {
 
-    const { isLogin, setLogin, userInfo, setUserInfo } = useContext(AuthContext);
+    const { setLogin, setUserInfo } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
     const handleLogin = async () => {
+        if (loading) return;
+
         try {
-            {/* Please watch the video for ful source code */ }
+            setLoading(true);
+            const result = await signInWithPopup(auth, provider);
+            const googleUser = result.user;
 
+            const userPayload = {
+                name: googleUser.displayName,
+                email: googleUser.email,
+                photoUrl: googleUser.photoURL,
+            };
 
+            const response = await axios.post('/api/user', userPayload);
+            const appUser = response.data.user;
+
+            setUserInfo(appUser);
+            localStorage.setItem('userInfo', JSON.stringify(appUser));
 
             setLogin(true);
-            localStorage.setItem("isLogin", true)
+            localStorage.setItem("isLogin", "true")
 
             navigate('/dashboard')
         } catch (err) {
-            alert("Something Went Wrong");
+            alert(err?.message || "Something Went Wrong");
             console.log(err)
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -36,7 +54,10 @@ const Login = () => {
                     <VpnKeyIcon />
                 </div>
 
-                <div className={styles.googleBtn} onClick={handleLogin}><GoogleIcon sx={{ fontSize: 20, color: "red" }} /> Sign in with Google</div>
+                <button className={styles.googleBtn} onClick={handleLogin} disabled={loading}>
+                    <GoogleIcon sx={{ fontSize: 20, color: "red" }} />
+                    {loading ? 'Signing in...' : 'Sign in with Google'}
+                </button>
 
             </div>
         </div>
