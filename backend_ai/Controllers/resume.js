@@ -9,6 +9,13 @@ const cohere = new CohereClient({
     token: process.env.COHERE_API_KEY,
 });
 
+const getAdminEmails = () => {
+    return (process.env.ADMIN_EMAILS || '')
+        .split(',')
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+}
+
 exports.addResume = async (req, res) => {
     let pdfPath;
 
@@ -110,6 +117,20 @@ exports.getAllResumesForUser = async (req, res) => {
 
 exports.getResumeForAdmin = async (req, res) => {
     try {
+        const requesterId = req.header('x-user-id');
+
+        if (!requesterId) {
+            return res.status(401).json({ error: 'Login is required' });
+        }
+
+        const requester = await User.findByPk(requesterId);
+
+        const isConfiguredAdmin = requester && getAdminEmails().includes(requester.email.toLowerCase());
+
+        if (!requester || (requester.role !== 'admin' && !isConfiguredAdmin)) {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+
         const resumes = await Resume.findAll({
             order: [['createdAt', 'DESC']],
             include: [{

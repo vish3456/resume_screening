@@ -1,5 +1,12 @@
 const { User } = require('../Models/index');
 
+const getAdminEmails = () => {
+    return (process.env.ADMIN_EMAILS || '')
+        .split(',')
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+}
+
 exports.register = async (req, res) => {
     try {
         const { name, email, photoUrl } = req.body;
@@ -9,11 +16,12 @@ exports.register = async (req, res) => {
 
         let user = await User.findOne({ where: { email: email } });
         const isExistingUser = Boolean(user);
+        const role = getAdminEmails().includes(email.toLowerCase()) ? 'admin' : 'user';
 
         if (!user) {
-            user = await User.create({ name, email, photoUrl });
+            user = await User.create({ name, email, photoUrl, role });
         } else {
-            await user.update({ name, photoUrl });
+            await user.update({ name, photoUrl, role });
         }
 
         return res.status(200).json({

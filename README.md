@@ -99,6 +99,10 @@ DB_PASSWORD=your_password_here
 
 # Cohere AI
 COHERE_API_KEY=your_cohere_api_key_here
+
+# Admin access
+# Comma-separated Google account emails that should receive admin role
+ADMIN_EMAILS=admin@example.com
 ```
 
 > **Important**: Replace `your_password_here` and `your_cohere_api_key_here` with your actual credentials.

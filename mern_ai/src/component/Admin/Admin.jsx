@@ -4,6 +4,9 @@ import { Skeleton } from '@mui/material';
 import WithAuthHOC from '../../utils/HOC/withAuthHOC';
 import axios from '../../utils/axios';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../utils/AuthContext';
 
 const getScoreColor = (score) => {
   const num = parseInt(score);
@@ -15,22 +18,33 @@ const getScoreColor = (score) => {
 const Admin = () => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
+  const { userInfo } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!userInfo) return;
+
     const fetchAllData = async () => {
       try {
         setLoader(true);
-        const response = await axios.get('/api/resume/get');
+        const response = await axios.get('/api/resume/get', {
+          headers: {
+            'x-user-id': userInfo.id,
+          },
+        });
         setData(response.data?.data || []);
       } catch (err) {
         console.error("Failed to fetch admin data:", err);
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          navigate('/dashboard');
+        }
       } finally {
         setLoader(false);
       }
     };
 
     fetchAllData();
-  }, []);
+  }, [navigate, userInfo]);
 
   return (
     <div className={styles.page}>

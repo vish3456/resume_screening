@@ -31,8 +31,11 @@ const SideBar = () => {
         { path: '/screen', icon: <FindInPageIcon sx={{ fontSize: 20 }} />, label: 'Screener', exact: true },
         { path: '/screen/history', icon: <WorkHistoryIcon sx={{ fontSize: 20 }} />, label: 'Screening History', matchPaths: ['/screen/history', '/screen/results'] },
         { path: '/history', icon: <ManageSearchIcon sx={{ fontSize: 20 }} />, label: 'History' },
-        { path: '/admin', icon: <AdminPanelSettingsIcon sx={{ fontSize: 20 }} />, label: 'Admin' },
     ];
+
+    if (userInfo?.role === 'admin') {
+        navItems.push({ path: '/admin', icon: <AdminPanelSettingsIcon sx={{ fontSize: 20 }} />, label: 'Admin' });
+    }
 
     const isActive = (item) => {
         if (item.matchPaths) {
