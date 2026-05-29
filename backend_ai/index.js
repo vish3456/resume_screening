@@ -12,23 +12,52 @@ require('./Models/index');
 
 app.use(express.json());
 
-// Dynamic CORS configuration to support both local and deployed frontend urls
-const allowedOrigins = [
-    "http://localhost:5173",
-    process.env.FRONTEND_URL
-].filter(Boolean);
-
-app.use(cors({
-    credentials: true,
-    origin: function(origin, callback) {
+// Robust CORS configuration supporting localhost, dynamic FRONTEND_URL, same-origin, and Render subdomains
+const corsOptionsDelegate = function (req, callback) {
+    const origin = req.header('Origin');
+    const host = req.header('host');
+    
+    let isAllowed = false;
+    
+    if (!origin) {
         // Allow requests with no origin (like mobile apps, curl, postman)
-        if (!origin) return callback(null, true);
+        isAllowed = true;
+    } else {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            process.env.FRONTEND_URL
+        ].filter(Boolean);
+        
+        // 1. Check if in explicit allowed list
         if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes("*")) {
-            return callback(null, true);
+            isAllowed = true;
+        } 
+        // 2. Check same-origin (compare origin host with request host)
+        else {
+            try {
+                const originUrl = new URL(origin);
+                if (originUrl.host === host) {
+                    isAllowed = true;
+                }
+            } catch (e) {
+                // Invalid origin URL, default to false
+            }
         }
-        return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
+        
+        // 3. Fallback: Automatically allow Render subdomains to prevent easy setup failures
+        if (!isAllowed && origin.endsWith('.onrender.com')) {
+            isAllowed = true;
+        }
     }
-}));
+    
+    if (isAllowed) {
+        callback(null, { origin: true, credentials: true });
+    } else {
+        callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
+    }
+};
+
+app.use(cors(corsOptionsDelegate));
 
 // Dedicated Health Check Route for Render monitoring
 app.get('/api/health', (req, res) => {
