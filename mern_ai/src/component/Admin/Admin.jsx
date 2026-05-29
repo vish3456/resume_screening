@@ -36,7 +36,7 @@ const Admin = () => {
       } catch (err) {
         console.error("Failed to fetch admin data:", err);
         if (err.response?.status === 401 || err.response?.status === 403) {
-          navigate('/dashboard');
+          navigate('/screen');
         }
       } finally {
         setLoader(false);

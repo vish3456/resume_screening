@@ -38,7 +38,7 @@ const Login = () => {
             setLogin(true);
             localStorage.setItem("isLogin", "true")
 
-            navigate('/dashboard')
+            navigate('/screen')
         } catch (err) {
             alert(err?.message || "Something Went Wrong");
             console.log(err)
